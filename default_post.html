@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      var $var_temperature = $('#temperature'),
+        $var_humidy = $('#humidy'),
+        $var_btn = $('#btn'),
+        $var_btnGet = $('#btnGet'),
+        msg = {};
+
+      var date = new Date();
+      var now = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate() + "  " + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+
+      $var_btn.on('click', function () {
+        msg = {
+          data: now + "," + $var_temperature.val() + ',' + $var_humidy.val(),
+          sheetUrl: 'https://docs.google.com/spreadsheets/d/1ZH87Uet3Jdx-HiDHvBHJGQdrUBIqyKSJQ02KIgNsZ78/edit#gid=0',
+          sheetTag: '工作表1'
+        };
+        console.log(msg);
+        $.post('https://script.google.com/macros/s/AKfycbzTtLADQzS2q43ygcEvSV1qS0qjx_8I-vxy4brmtklPrWKk4Z3i/exec', msg, function (e) {
+          alert(e.toString());
+        });
+      });
+
+      $var_btnGet.on('click', function () {
+        $.get('https://script.google.com/macros/s/AKfycbzTtLADQzS2q43ygcEvSV1qS0qjx_8I-vxy4brmtklPrWKk4Z3i/exec', function (e) {
+          alert(e.toString());
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+  4A690127/陳伯祥<br />
+  感測器(溫度)：<input id="temperature"><br />
+  感測器(濕度)：<input id="humidy"><br />
+  <button id="btn">儲存</button><br />
+  <button id="btnGet">拿資料</button>
+</body>
+
+</html>
